@@ -9,6 +9,26 @@
 
 ## Add authentication
 
+Create a file named `app/models/user.rb` with the following contents:
+
+```ruby
+class User < ActiveRecord::Base
+
+  validates :email, presence: true, uniqueness: true
+  has_secure_password
+
+end
+```
+
+Uncomment the `gem 'bcrypt'` line in `Gemfile` then
+run `bundle` (and restart your rails server if it's running).
+
+In Terminal, run
+* `rails g migration create_users email:string password_digest:string`
+* `rake db:migrate`
+
+---
+
 Add the following to `config/routes.rb`:
 
 ```ruby
@@ -118,24 +138,6 @@ Add a view named `app/views/registrations/new.html.erb` with the following conte
 <% end %>
 ```
 
-Create a file named `app/models/user.rb` with the following contents:
-
-```ruby
-class User < ActiveRecord::Base
-
-  validates :email, presence: true, uniqueness: true
-  has_secure_password
-
-end
-```
-
-Uncomment the `gem 'bcrypt'` line in `Gemfile` then
-run `bundle` (and restart your rails server if it's running).
-
-In Terminal, run
-* `rails g migration create_users email:string password_digest:string`
-* `rake db:migrate`
-
 You should be able to sign up now in your browser.
 
 ---
@@ -165,6 +167,10 @@ class AuthenticationController < ApplicationController
 
 end
 ```
+
+---
+
+Click the "Sign in" link.
 
 Create a view named `app/views/authentication/new.html.erb` with the following contents:
 
